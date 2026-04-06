@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@500;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Space Grotesk', sans-serif;
+  color: #2f261f;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 224, 194, 0.6), transparent 45%),
+    radial-gradient(circle at 80% 10%, rgba(255, 212, 224, 0.5), transparent 40%),
+    linear-gradient(180deg, #fff9f3 0%, #fff4eb 100%);
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+h1,
+h2,
+button {
+  font-family: 'Sora', sans-serif;
+}
