@@ -1,65 +1,64 @@
 .app-shell {
-  padding: 2.5rem 1rem 3rem;
-}
-
-.top-panel {
-  margin: 0 auto 1.25rem;
-  width: min(980px, 100%);
-  border: 1px solid #e7dccd;
-  border-radius: 1.2rem;
-  padding: 1.4rem;
-  background: linear-gradient(120deg, #fff7ec 0%, #ffe4d3 45%, #ffd5df 100%);
-  box-shadow: 0 10px 32px rgba(148, 95, 61, 0.12);
-  animation: rise-in 400ms ease-out;
+  min-height: 100vh;
+  padding: 32px 16px 40px;
 }
 
 .eyebrow {
   text-transform: uppercase;
-  letter-spacing: 0.14rem;
-  font-size: 0.78rem;
-  color: #8b4f2c;
-  margin-bottom: 0.4rem;
+  letter-spacing: 0.12rem;
+  font-size: 0.72rem;
+  color: #7a7a7a;
+  margin: 0 0 8px;
 }
 
-.top-panel h1 {
+.panel,
+.card-grid,
+.error-box {
+  width: min(720px, 100%);
+  margin: 0 auto;
+}
+
+.panel {
+  background: #fff;
+  border: 1px solid #e8e8e8;
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.panel h1 {
   margin: 0;
-  font-size: clamp(1.8rem, 2.6vw, 2.4rem);
-  color: #302117;
-}
-
-.subtitle {
-  margin: 0.55rem 0 0;
-  color: #644638;
+  font-size: 1.6rem;
+  color: #111;
 }
 
 .create-form {
-  margin-top: 1rem;
+  margin-top: 16px;
   display: grid;
-  gap: 0.8rem;
+  gap: 10px;
   grid-template-columns: 1fr auto auto;
   align-items: center;
 }
 
 .create-form input[type='text'] {
-  border: 1px solid #cfb499;
-  border-radius: 0.75rem;
-  padding: 0.75rem 0.8rem;
-  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 0.98rem;
 }
 
-.create-form label {
+.checkbox-row {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  color: #51372a;
+  gap: 8px;
+  color: #444;
   font-size: 0.95rem;
 }
 
 button {
   border: none;
-  border-radius: 0.7rem;
-  padding: 0.65rem 0.9rem;
-  background: #1f7a8c;
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+  background: #111;
   color: #fff;
   font-weight: 600;
   cursor: pointer;
@@ -69,118 +68,98 @@ button:hover {
   filter: brightness(1.04);
 }
 
-.error-box {
-  width: min(980px, 100%);
-  margin: 0 auto 1rem;
-  background: #ffe6e9;
-  color: #8a1731;
-  border: 1px solid #ffbfd0;
-  border-radius: 0.8rem;
-  padding: 0.8rem;
-}
-
 .card-grid {
-  width: min(980px, 100%);
-  margin: 0 auto;
+  margin-top: 16px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 0.9rem;
+  gap: 12px;
 }
 
 .state-text {
   grid-column: 1 / -1;
-  color: #67493a;
+  color: #666;
   text-align: center;
-  padding: 1rem;
+  padding: 16px;
   background: #fff;
-  border: 1px dashed #d4b8a3;
-  border-radius: 0.9rem;
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
 }
 
 .task-card {
   background: #fff;
-  border: 1px solid #ecd9c8;
-  border-radius: 0.95rem;
-  padding: 0.95rem;
-  box-shadow: 0 10px 18px rgba(83, 52, 33, 0.08);
+  border: 1px solid #e8e8e8;
+  border-radius: 14px;
+  padding: 16px;
   display: grid;
-  gap: 0.6rem;
-  animation: rise-in 320ms ease-out;
+  gap: 10px;
+}
+
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
 }
 
 .card-id {
   margin: 0;
-  color: #a96a42;
-  font-size: 0.8rem;
+  color: #8a8a8a;
+  font-size: 0.78rem;
 }
 
 .task-card h2 {
   margin: 0;
-  font-size: 1.1rem;
-  color: #2c211a;
+  font-size: 1rem;
+  color: #111;
 }
 
-.badge {
+.status {
   margin: 0;
   display: inline-block;
   width: fit-content;
   border-radius: 999px;
-  padding: 0.24rem 0.7rem;
-  font-size: 0.8rem;
+  padding: 0.22rem 0.65rem;
+  font-size: 0.75rem;
 }
 
-.badge.done {
-  background: #def5df;
+.status.done {
+  background: #eef8ef;
   color: #1f6b21;
 }
 
-.badge.pending {
-  background: #fff3d8;
-  color: #8b5a00;
+.status.pending {
+  background: #f6f6f6;
+  color: #555;
 }
 
 .card-input {
-  border: 1px solid #cfb499;
-  border-radius: 0.65rem;
-  padding: 0.58rem;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 10px 12px;
   font-size: 0.95rem;
-}
-
-.card-checkbox {
-  color: #4d3527;
-  font-size: 0.92rem;
-  display: inline-flex;
-  gap: 0.4rem;
-  align-items: center;
 }
 
 .card-actions {
   display: flex;
-  gap: 0.5rem;
+  gap: 8px;
 }
 
 .card-actions .ghost {
-  background: #efe3d7;
-  color: #5d4335;
+  background: #f3f3f3;
+  color: #111;
 }
 
 .card-actions .danger {
-  background: #c2424a;
+  background: #efefef;
+  color: #9a1b1b;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 640px) {
   .create-form {
     grid-template-columns: 1fr;
   }
-}
 
-@keyframes rise-in {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  .card-head {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }
