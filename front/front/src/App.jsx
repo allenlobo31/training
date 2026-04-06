@@ -4,16 +4,12 @@ import './App.css'
 function App() {
   const [todos, setTodos] = useState([])
   const [newText, setNewText] = useState('')
-  const [editingId, setEditingId] = useState('')
-  const [editText, setEditText] = useState('')
-  const [editCompleted, setEditCompleted] = useState(false)
 
   const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000'
 
   const fetchTodos = async () => {
     const response = await fetch(`${apiBaseUrl}/page`)
-    const data = await response.json()
-    setTodos(Array.isArray(data) ? data : [])
+    setTodos(await response.json())
   }
 
   useEffect(() => {
@@ -22,9 +18,7 @@ function App() {
 
   const addTodo = async (event) => {
     event.preventDefault()
-    if (!newText.trim()) {
-      return
-    }
+    if (!newText.trim()) return
 
     const response = await fetch(`${apiBaseUrl}/page`, {
       method: 'POST',
@@ -32,48 +26,34 @@ function App() {
       body: JSON.stringify({ text: newText.trim(), completed: false }),
     })
 
-    const created = await response.json()
-    setTodos((currentTodos) => [created, ...currentTodos])
+    setTodos([await response.json(), ...todos])
     setNewText('')
   }
 
-  const startEdit = (todo) => {
-    setEditingId(todo._id)
-    setEditText(todo.text)
-    setEditCompleted(todo.completed)
-  }
+  const editTodo = async (todo) => {
+    const text = window.prompt('Task text', todo.text)
+    if (text === null || !text.trim()) return
 
-  const cancelEdit = () => {
-    setEditingId('')
-    setEditText('')
-    setEditCompleted(false)
-  }
-
-  const saveEdit = async (id) => {
-    if (!editText.trim()) {
-      return
-    }
-
-    const response = await fetch(`${apiBaseUrl}/page/${id}`, {
+    const response = await fetch(`${apiBaseUrl}/page/${todo._id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: editText.trim(), completed: editCompleted }),
+      body: JSON.stringify({ text: text.trim(), completed: !todo.completed }),
     })
 
     const updated = await response.json()
-    setTodos((currentTodos) => currentTodos.map((todo) => (todo._id === id ? updated : todo)))
-    cancelEdit()
+    setTodos(todos.map((item) => (item._id === todo._id ? updated : item)))
   }
 
   const deleteTodo = async (id) => {
+    if (!window.confirm('Delete this task?')) return
+
     await fetch(`${apiBaseUrl}/page/${id}`, { method: 'DELETE' })
-    setTodos((currentTodos) => currentTodos.filter((todo) => todo._id !== id))
+    setTodos(todos.filter((todo) => todo._id !== id))
   }
 
   return (
     <main className="app-shell">
       <section className="panel">
-        <p className="eyebrow">Trainer Dashboard</p>
         <h1>Tasks</h1>
 
         <form className="create-form" onSubmit={addTodo}>
@@ -88,57 +68,26 @@ function App() {
       </section>
 
       <section className="card-grid">
-        {todos.length === 0 && <p className="state-text">No tasks yet.</p>}
-
-        {todos.map((todo) => {
-          const isEditing = editingId === todo._id
-
-          return (
+        {todos.length === 0 ? (
+          <p className="state-text">No tasks yet.</p>
+        ) : (
+          todos.map((todo) => (
             <article className="task-card" key={todo._id}>
-              <div className="card-head">
-                <span className={todo.completed ? 'status done' : 'status pending'}>
-                  {todo.completed ? 'Done' : 'Open'}
-                </span>
-                <span className="card-id">#{todo._id.slice(-6)}</span>
+              <h2>{todo.text}</h2>
+              <p className={todo.completed ? 'status done' : 'status pending'}>
+                {todo.completed ? 'Done' : 'Open'}
+              </p>
+              <div className="card-actions">
+                <button type="button" className="ghost" onClick={() => editTodo(todo)}>
+                  Edit
+                </button>
+                <button type="button" className="danger" onClick={() => deleteTodo(todo._id)}>
+                  Delete
+                </button>
               </div>
-
-              {isEditing ? (
-                <>
-                  <input
-                    className="card-input"
-                    type="text"
-                    value={editText}
-                    onChange={(event) => setEditText(event.target.value)}
-                  />
-                  <label className="checkbox-row">
-                    <input
-                      type="checkbox"
-                      checked={editCompleted}
-                      onChange={(event) => setEditCompleted(event.target.checked)}
-                    />
-                    Done
-                  </label>
-                  <div className="card-actions">
-                    <button type="button" onClick={() => saveEdit(todo._id)}>Save</button>
-                    <button type="button" className="ghost" onClick={cancelEdit}>Cancel</button>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <h2>{todo.text}</h2>
-                  <div className="card-actions">
-                    <button type="button" className="ghost" onClick={() => startEdit(todo)}>
-                      Edit
-                    </button>
-                    <button type="button" className="danger" onClick={() => deleteTodo(todo._id)}>
-                      Delete
-                    </button>
-                  </div>
-                </>
-              )}
             </article>
-          )
-        })}
+          ))
+        )}
       </section>
     </main>
   )
